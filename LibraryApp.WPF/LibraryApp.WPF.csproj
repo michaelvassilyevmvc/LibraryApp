@@ -11,4 +11,9 @@
     <ProjectReference Include="..\LibraryApp.WebAPIClients\LibraryApp.WebAPIClients.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="MathCore.WPF" Version="0.0.44.5" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
+  </ItemGroup>
+
 </Project>

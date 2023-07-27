@@ -1,9 +1,11 @@
 ﻿<Application x:Class="LibraryApp.WPF.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:LibraryApp.WPF"
+             xmlns:l="clr-namespace:LibraryApp.WPF"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <l:ServiceLocator x:Key="Locator" />
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
