@@ -1,4 +1,7 @@
+using LibraryApp.API.Data;
 using LibraryApp.DAL.Context;
+using LibraryApp.DAL.Repositories;
+using LibraryApp.Interfaces.Base.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +24,10 @@ namespace LibraryApp.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DataDB>(opt => opt.UseSqlServer(Configuration.GetConnectionString("Data"), o => o.MigrationsAssembly("LibraryApp.DAL.SqlServer")));
+            services.AddTransient<DataDBInitializer>();
+            services.AddScoped(typeof(IRepository<>), typeof(DbRepository<>));
+            services.AddScoped(typeof(INamedRepository<>), typeof(DbNamedRepository<>));
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -28,14 +35,18 @@ namespace LibraryApp.API
             });
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataDBInitializer db)
         {
+            db.Initialize();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "LibraryApp.API v1"));
             }
+
+            app.UseHttpsRedirection();
 
             app.UseRouting();
 
