@@ -1,4 +1,7 @@
-﻿using LibraryApp.WPF.ViewModels;
+﻿using LibraryApp.DAL.Entities;
+using LibraryApp.Interfaces.Base.Repositories;
+using LibraryApp.WebAPIClients.Repositories;
+using LibraryApp.WPF.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
@@ -30,6 +33,11 @@ namespace LibraryApp.WPF
         private static void ConfigureServices(HostBuilderContext host, IServiceCollection services)
         {
             services.AddScoped<MainWindowViewModel>();
+            services.AddHttpClient<IRepository<DataSource>, WebRepository<DataSource>>(
+                client =>
+                {
+                    client.BaseAddress = new Uri($"{host.Configuration["WebAPI"]}/api/DataSources/");
+                });
         }
 
         protected override async void OnStartup(StartupEventArgs e)
