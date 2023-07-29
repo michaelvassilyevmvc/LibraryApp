@@ -12,7 +12,7 @@ namespace LibraryApp.Interfaces.Base.Repositories
         int TotalCount { get; }
         int PageIndex { get; }
         int PageSize { get; }
-        int TotalPagesCount => (int)Math.Ceiling((double)TotalCount / PageSize);
+        int TotalPagesCount { get; }
     }
 
     public interface IRepository<T> where T : IEntity
